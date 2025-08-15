@@ -1,54 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import Image from "next/image";
-import { MapPin, Droplets, Wind, Thermometer, Clock } from "lucide-react";
+import { MapPin, Droplets, Wind, Thermometer } from "lucide-react";
 
 import { Button, Typography } from "@mui/material";
 import { Card, CardContent } from "@mui/material";
 
-function CurrentTime() {
-  const [currentTime, setCurrentTime] = useState(new Date());
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, []);
-
-  const formatTime = (date: Date) => {
-    return date.toLocaleTimeString("id-ID", {
-      hour: "2-digit",
-      minute: "2-digit",
-      timeZone: "Asia/Jakarta",
-    });
-  };
-
-  const formatDate = (date: Date) => {
-    return date.toLocaleDateString("id-ID", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      timeZone: "Asia/Jakarta",
-    });
-  };
-
-  return (
-    <div className="flex justify-center mb-8">
-      <div className="bg-[#cbc0b2] px-6 py-3 rounded-lg text-[#550b14]">
-        <div className="flex items-center gap-2 text-base">
-          <Clock className="h-5 w-5" />
-          <span className="font-semibold">{formatTime(currentTime)}</span>
-          <span className="text-sm opacity-70">WIB</span>
-          <span className="text-sm opacity-70">|</span>
-          <span className="text-sm opacity-70">{formatDate(currentTime)}</span>
-        </div>
-      </div>
-    </div>
-  );
-}
+import FloodTrackingModal from "@/components/FloodTrackingModal";
+import CurrentTime from "@/components/CurrentTime";
 
 export default function Home() {
   return (
@@ -157,28 +116,11 @@ export default function Home() {
                       situasi darurat dengan lebih baik. Dapatkan akses ke peta
                       interaktif, peringatan dini, dan informasi cuaca terkini.
                     </p>
-                    <Button
-                      variant="contained"
-                      sx={{
-                        backgroundColor: "#550b14",
-                        color: "#f8f8f7",
-                        textTransform: "none",
-                        "&:hover": {
-                          backgroundColor: "#7e6961",
-                        },
-                      }}
-                      onClick={() =>
-                        document
-                          .getElementById("dashboard")
-                          ?.scrollIntoView({ behavior: "smooth" })
-                      }
-                    >
-                      Lihat Dashboard
-                    </Button>
+                    <FloodTrackingModal />
                   </div>
                   <div className="relative h-[250px] rounded-lg overflow-hidden">
                     <Image
-                      src={"/AV-s-Intelligence-Portal/banjir.jpg"}
+                      src={"/AV-s-Intelligence-Portal/images/banjir.jpg"}
                       alt="Flood Tracking"
                       fill
                       className="object-cover"
@@ -281,13 +223,22 @@ export default function Home() {
                       transition: "all 0.2s ease-in-out",
                     }}
                   >
-                    <CardContent sx={{ padding: "1.5rem" }}>
+                    <CardContent
+                      sx={{
+                        padding: {
+                          xs: "1rem !important",
+                          sm: "1.5rem !important",
+                        },
+                        textAlign: "center",
+                      }}
+                    >
                       <div
                         style={{
                           display: "flex",
                           alignItems: "center",
                           gap: "8px",
                           marginBottom: "16px",
+                          justifyContent: "center",
                         }}
                       >
                         <Wind
@@ -341,13 +292,22 @@ export default function Home() {
                       transition: "all 0.2s ease-in-out",
                     }}
                   >
-                    <CardContent sx={{ padding: "1.5rem" }}>
+                    <CardContent
+                      sx={{
+                        padding: {
+                          xs: "1rem !important",
+                          sm: "1.5rem !important",
+                        },
+                        textAlign: "center",
+                      }}
+                    >
                       <div
                         style={{
                           display: "flex",
                           alignItems: "center",
                           gap: "8px",
                           marginBottom: "16px",
+                          justifyContent: "center",
                         }}
                       >
                         <Thermometer
@@ -401,13 +361,22 @@ export default function Home() {
                       transition: "all 0.2s ease-in-out",
                     }}
                   >
-                    <CardContent sx={{ padding: "1.5rem" }}>
+                    <CardContent
+                      sx={{
+                        padding: {
+                          xs: "1rem !important",
+                          sm: "1.5rem !important",
+                        },
+                        textAlign: "center",
+                      }}
+                    >
                       <div
                         style={{
                           display: "flex",
                           alignItems: "center",
                           gap: "8px",
                           marginBottom: "16px",
+                          justifyContent: "center",
                         }}
                       >
                         <MapPin
@@ -471,42 +440,49 @@ export default function Home() {
                       transition: "all 0.3s ease-in-out",
                     }}
                   >
-                    <CardContent sx={{ padding: "2rem" }}>
-                      <div className="flex justify-between items-center">
-                        <div className="flex-1">
-                          <Typography
-                            variant="h6"
-                            sx={{
-                              fontWeight: 600,
-                              fontSize: "1.125rem",
-                              marginBottom: "0.75rem",
-                            }}
-                          >
-                            Peta Integrasi
-                          </Typography>
-                          <Typography
-                            variant="body2"
-                            sx={{
-                              fontSize: "0.875rem",
-                              color: "rgba(255, 255, 255, 0.8)",
-                              lineHeight: 1.5,
-                            }}
-                          >
-                            Peta terintegrasi untuk pemantauan
-                          </Typography>
-                        </div>
+                    <CardContent
+                      sx={{
+                        padding: "1.5rem !important",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <div style={{ flex: 1 }}>
                         <Typography
-                          variant="h1"
+                          variant="h6"
                           sx={{
-                            fontSize: "3rem",
-                            fontWeight: "bold",
-                            opacity: 0.9,
-                            marginLeft: "1.5rem",
+                            fontWeight: 600,
+                            fontSize: "1.125rem",
+                            marginBottom: "0.5rem",
                           }}
                         >
-                          1
+                          Peta Integrasi
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            fontSize: "0.875rem",
+                            color: "rgba(255, 255, 255, 0.8)",
+                            lineHeight: 1.5,
+                          }}
+                        >
+                          Peta terintegrasi untuk pemantauan
                         </Typography>
                       </div>
+                      <Typography
+                        variant="h1"
+                        sx={{
+                          fontSize: "2.5rem",
+                          fontWeight: "bold",
+                          opacity: 0.9,
+                          marginLeft: "1rem",
+                          minWidth: "60px",
+                          textAlign: "center",
+                        }}
+                      >
+                        1
+                      </Typography>
                     </CardContent>
                   </Card>
 
@@ -523,42 +499,49 @@ export default function Home() {
                       transition: "all 0.3s ease-in-out",
                     }}
                   >
-                    <CardContent sx={{ padding: "2rem" }}>
-                      <div className="flex justify-between items-center">
-                        <div className="flex-1">
-                          <Typography
-                            variant="h6"
-                            sx={{
-                              fontWeight: 600,
-                              fontSize: "1.125rem",
-                              marginBottom: "0.75rem",
-                            }}
-                          >
-                            Parameter
-                          </Typography>
-                          <Typography
-                            variant="body2"
-                            sx={{
-                              fontSize: "0.875rem",
-                              color: "rgba(255, 255, 255, 0.8)",
-                              lineHeight: 1.5,
-                            }}
-                          >
-                            Parameter pemantauan banjir
-                          </Typography>
-                        </div>
+                    <CardContent
+                      sx={{
+                        padding: "1.5rem !important",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <div style={{ flex: 1 }}>
                         <Typography
-                          variant="h1"
+                          variant="h6"
                           sx={{
-                            fontSize: "3rem",
-                            fontWeight: "bold",
-                            opacity: 0.9,
-                            marginLeft: "1.5rem",
+                            fontWeight: 600,
+                            fontSize: "1.125rem",
+                            marginBottom: "0.5rem",
                           }}
                         >
-                          6
+                          Parameter
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            fontSize: "0.875rem",
+                            color: "rgba(255, 255, 255, 0.8)",
+                            lineHeight: 1.5,
+                          }}
+                        >
+                          Parameter pemantauan banjir
                         </Typography>
                       </div>
+                      <Typography
+                        variant="h1"
+                        sx={{
+                          fontSize: "2.5rem",
+                          fontWeight: "bold",
+                          opacity: 0.9,
+                          marginLeft: "1rem",
+                          minWidth: "60px",
+                          textAlign: "center",
+                        }}
+                      >
+                        6
+                      </Typography>
                     </CardContent>
                   </Card>
 
@@ -575,42 +558,49 @@ export default function Home() {
                       transition: "all 0.3s ease-in-out",
                     }}
                   >
-                    <CardContent sx={{ padding: "2rem" }}>
-                      <div className="flex justify-between items-center">
-                        <div className="flex-1">
-                          <Typography
-                            variant="h6"
-                            sx={{
-                              fontWeight: 600,
-                              fontSize: "1.125rem",
-                              marginBottom: "0.75rem",
-                            }}
-                          >
-                            Kelas Rawan Banjir
-                          </Typography>
-                          <Typography
-                            variant="body2"
-                            sx={{
-                              fontSize: "0.875rem",
-                              color: "rgba(255, 255, 255, 0.8)",
-                              lineHeight: 1.5,
-                            }}
-                          >
-                            Klasifikasi tingkat kerawanan
-                          </Typography>
-                        </div>
+                    <CardContent
+                      sx={{
+                        padding: "1.5rem !important",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <div style={{ flex: 1 }}>
                         <Typography
-                          variant="h1"
+                          variant="h6"
                           sx={{
-                            fontSize: "3rem",
-                            fontWeight: "bold",
-                            opacity: 0.9,
-                            marginLeft: "1.5rem",
+                            fontWeight: 600,
+                            fontSize: "1.125rem",
+                            marginBottom: "0.5rem",
                           }}
                         >
-                          3
+                          Kelas Rawan Banjir
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            fontSize: "0.875rem",
+                            color: "rgba(255, 255, 255, 0.8)",
+                            lineHeight: 1.5,
+                          }}
+                        >
+                          Klasifikasi tingkat kerawanan
                         </Typography>
                       </div>
+                      <Typography
+                        variant="h1"
+                        sx={{
+                          fontSize: "2.5rem",
+                          fontWeight: "bold",
+                          opacity: 0.9,
+                          marginLeft: "1rem",
+                          minWidth: "60px",
+                          textAlign: "center",
+                        }}
+                      >
+                        3
+                      </Typography>
                     </CardContent>
                   </Card>
                 </div>
@@ -632,7 +622,7 @@ export default function Home() {
             <div className="flex justify-center items-center gap-8 mb-6">
               <div className="relative w-20 h-20">
                 <Image
-                  src={"/AV-s-Intelligence-Portal/footer-1.png"}
+                  src={"/AV-s-Intelligence-Portal/images/footer-1.png"}
                   alt="Partner Logo 1"
                   fill
                   className="object-contain"
@@ -640,7 +630,7 @@ export default function Home() {
               </div>
               <div className="relative w-20 h-20">
                 <Image
-                  src={"/AV-s-Intelligence-Portal/footer-2.png"}
+                  src={"/AV-s-Intelligence-Portal/images/footer-2.png"}
                   alt="Partner Logo 2"
                   fill
                   className="object-contain"
@@ -648,7 +638,7 @@ export default function Home() {
               </div>
               <div className="relative w-16 h-16">
                 <Image
-                  src={"/AV-s-Intelligence-Portal/footer-3.png"}
+                  src={"/AV-s-Intelligence-Portal/images/footer-3.png"}
                   alt="Partner Logo 3"
                   fill
                   className="object-contain"
