@@ -149,7 +149,7 @@ export default function Home() {
                 <div className="grid gap-6 md:grid-cols-2 md:gap-12 items-center">
                   <div className="space-y-4">
                     <h2 className="text-2xl md:text-3xl font-bold text-[#550b14]">
-                      Pantau dan Lacak Banjir di Sumatera
+                      Pantau dan Lacak Banjir di Sumatera Selatan
                     </h2>
                     <p className="text-[#7e6961]">
                       Platform kami menyediakan data real-time dan prediksi
