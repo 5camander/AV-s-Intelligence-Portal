@@ -646,7 +646,7 @@ export default function Home() {
                   className="object-contain"
                 />
               </div>
-              <div className="relative w-20 h-20">
+              <div className="relative w-16 h-16">
                 <Image
                   src={"/images/footer-3.png"}
                   alt="Partner Logo 3"
