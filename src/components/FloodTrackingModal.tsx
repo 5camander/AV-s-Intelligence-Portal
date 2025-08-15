@@ -21,37 +21,37 @@ export default function FloodTrackingModal() {
       title: "Peta Curah Hujan",
       description:
         "Analisis distribusi curah hujan dan intensitas presipitasi di wilayah Sumatera Selatan",
-      image: "/AV-s-Intelligence-Portal/peta/curahhujan.jpg",
+      image: "/AV-s-Intelligence-Portal/peta/curahhujan.png",
     },
     kelerengan: {
       title: "Peta Kelerengan",
       description:
         "Analisis kemiringan lereng yang mempengaruhi aliran air permukaan dan resiko banjir",
-      image: "/AV-s-Intelligence-Portal/peta/Kelerengan.jpg",
+      image: "/AV-s-Intelligence-Portal/peta/Kelerengan.png",
     },
     ketinggian: {
       title: "Peta Ketinggian",
       description:
         "Analisis elevasi dan topografi wilayah untuk identifikasi daerah rawan genangan",
-      image: "/AV-s-Intelligence-Portal/peta/ketinggiankedua.jpg",
+      image: "/AV-s-Intelligence-Portal/peta/ketinggiankedua.png",
     },
     jenis_tanah: {
       title: "Peta Jenis Tanah",
       description:
         "Klasifikasi jenis tanah dan kemampuan infiltrasi air ke dalam tanah",
-      image: "/AV-s-Intelligence-Portal/peta/PETAJENISTANAH.jpg",
+      image: "/AV-s-Intelligence-Portal/peta/PETAJENISTANAH.png",
     },
     kerapatan_sungai: {
       title: "Peta Kerapatan Aliran Sungai",
       description:
         "Analisis jaringan sungai dan kerapatan aliran yang mempengaruhi drainase alami",
-      image: "/AV-s-Intelligence-Portal/peta/PETAKERAPATANALIRANSUNGAI.jpg",
+      image: "/AV-s-Intelligence-Portal/peta/PETAKERAPATANALIRANSUNGAI.png",
     },
     tutupan_lahan: {
       title: "Peta Tutupan Lahan",
       description:
         "Klasifikasi penggunaan dan tutupan lahan serta dampaknya terhadap aliran permukaan",
-      image: "/AV-s-Intelligence-Portal/peta/tutupanlahan.jpg",
+      image: "/AV-s-Intelligence-Portal/peta/tutupanlahan.png",
     },
   };
 
@@ -64,10 +64,37 @@ export default function FloodTrackingModal() {
     { key: "tutupan_lahan", label: "Tutupan Lahan" },
   ];
 
+  // Mapping parameter keys to actual file names
+  const fileMapping = {
+    curahhujan: "curahhujan",
+    kelerengan: "Kelerengan",
+    ketinggian: "ketinggiankedua",
+    jenis_tanah: "PETAJENISTANAH",
+    kerapatan_sungai: "PETAKERAPATANALIRANSUNGAI",
+    tutupan_lahan: "tutupanlahan",
+  };
+
   const handleDownload = (format: string) => {
-    const currentMap =
-      mapParameters[selectedParameter as keyof typeof mapParameters];
-    console.log(`Downloading ${currentMap.title} in ${format} format...`);
+    const fileName = fileMapping[selectedParameter as keyof typeof fileMapping];
+
+    let fileUrl = "";
+    let downloadFileName = "";
+
+    if (format === "PDF") {
+      fileUrl = `/AV-s-Intelligence-Portal/pdf/${fileName}.pdf`;
+      downloadFileName = `${fileName}.pdf`;
+    } else if (format === "PNG") {
+      fileUrl = `/AV-s-Intelligence-Portal/peta/${fileName}.png`;
+      downloadFileName = `${fileName}.png`;
+    }
+
+    const link = document.createElement("a");
+    link.href = fileUrl;
+    link.download = downloadFileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
   };
 
   const handleClose = () => {
