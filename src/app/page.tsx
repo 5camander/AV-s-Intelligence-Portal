@@ -223,22 +223,13 @@ export default function Home() {
                       transition: "all 0.2s ease-in-out",
                     }}
                   >
-                    <CardContent
-                      sx={{
-                        padding: {
-                          xs: "1rem !important",
-                          sm: "1.5rem !important",
-                        },
-                        textAlign: "center",
-                      }}
-                    >
+                    <CardContent sx={{ padding: "1.5rem" }}>
                       <div
                         style={{
                           display: "flex",
                           alignItems: "center",
                           gap: "8px",
                           marginBottom: "16px",
-                          justifyContent: "center",
                         }}
                       >
                         <Wind
@@ -292,22 +283,13 @@ export default function Home() {
                       transition: "all 0.2s ease-in-out",
                     }}
                   >
-                    <CardContent
-                      sx={{
-                        padding: {
-                          xs: "1rem !important",
-                          sm: "1.5rem !important",
-                        },
-                        textAlign: "center",
-                      }}
-                    >
+                    <CardContent sx={{ padding: "1.5rem" }}>
                       <div
                         style={{
                           display: "flex",
                           alignItems: "center",
                           gap: "8px",
                           marginBottom: "16px",
-                          justifyContent: "center",
                         }}
                       >
                         <Thermometer
@@ -361,22 +343,13 @@ export default function Home() {
                       transition: "all 0.2s ease-in-out",
                     }}
                   >
-                    <CardContent
-                      sx={{
-                        padding: {
-                          xs: "1rem !important",
-                          sm: "1.5rem !important",
-                        },
-                        textAlign: "center",
-                      }}
-                    >
+                    <CardContent sx={{ padding: "1.5rem" }}>
                       <div
                         style={{
                           display: "flex",
                           alignItems: "center",
                           gap: "8px",
                           marginBottom: "16px",
-                          justifyContent: "center",
                         }}
                       >
                         <MapPin
@@ -440,14 +413,12 @@ export default function Home() {
                       transition: "all 0.3s ease-in-out",
                     }}
                   >
-                    <CardContent
-                      sx={{
-                        padding: "1.5rem !important",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                      }}
-                    >
+                    <CardContent sx={{ 
+                      padding: "1.5rem !important",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between"
+                    }}>
                       <div style={{ flex: 1 }}>
                         <Typography
                           variant="h6"
@@ -499,14 +470,12 @@ export default function Home() {
                       transition: "all 0.3s ease-in-out",
                     }}
                   >
-                    <CardContent
-                      sx={{
-                        padding: "1.5rem !important",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                      }}
-                    >
+                    <CardContent sx={{ 
+                      padding: "1.5rem !important",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between"
+                    }}>
                       <div style={{ flex: 1 }}>
                         <Typography
                           variant="h6"
@@ -558,14 +527,12 @@ export default function Home() {
                       transition: "all 0.3s ease-in-out",
                     }}
                   >
-                    <CardContent
-                      sx={{
-                        padding: "1.5rem !important",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                      }}
-                    >
+                    <CardContent sx={{ 
+                      padding: "1.5rem !important",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between"
+                    }}>
                       <div style={{ flex: 1 }}>
                         <Typography
                           variant="h6"
