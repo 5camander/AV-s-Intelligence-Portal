@@ -99,6 +99,7 @@ export default function FloodTrackingModal() {
 
   const handleClose = () => {
     setOpen(false);
+    setSelectedParameter("curahhujan");
   };
 
   return (
