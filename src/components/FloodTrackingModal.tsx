@@ -10,6 +10,7 @@ import {
   DialogContent,
   DialogTitle,
   DialogActions,
+  Box,
 } from "@mui/material";
 
 export default function FloodTrackingModal() {
@@ -110,8 +111,9 @@ export default function FloodTrackingModal() {
           backgroundColor: "#550b14",
           color: "#f8f8f7",
           textTransform: "none",
-          paddingLeft: "16px",
-          paddingRight: "16px",
+          paddingLeft: { xs: "12px", md: "16px" },
+          paddingRight: { xs: "12px", md: "16px" },
+          fontSize: { xs: "0.875rem", md: "1rem" },
           "&:hover": {
             backgroundColor: "#7e6961",
           },
@@ -126,31 +128,39 @@ export default function FloodTrackingModal() {
         fullWidth
         sx={{
           "& .MuiDialog-paper": {
-            width: "90vw",
-            height: "90vh",
+            width: { xs: "95vw", sm: "90vw" },
+            height: { xs: "95vh", sm: "90vh" },
             maxWidth: "none",
             maxHeight: "none",
-            margin: 0,
+            margin: { xs: "8px", sm: 0 },
           },
         }}
       >
         <DialogContent sx={{ padding: 0, height: "100%" }}>
-          <div style={{ display: "flex", height: "100%" }}>
+          <Box
+            sx={{
+              display: "flex",
+              height: "100%",
+              flexDirection: { xs: "column", md: "row" },
+            }}
+          >
             {/* Left Sidebar */}
-            <div
-              style={{
-                width: "320px",
+            <Box
+              sx={{
+                width: { xs: "100%", md: "320px" },
                 backgroundColor: "#f9fafb",
-                borderRight: "1px solid #cbc0b2",
-                padding: "24px",
+                borderRight: { xs: "none", md: "1px solid #cbc0b2" },
+                borderBottom: { xs: "1px solid #cbc0b2", md: "none" },
+                padding: { xs: "16px", md: "24px" },
                 overflowY: "auto",
+                maxHeight: { xs: "40vh", md: "100%" },
               }}
             >
               <div style={{ marginBottom: "24px" }}>
                 <DialogTitle
                   sx={{
                     padding: 0,
-                    fontSize: "1.25rem",
+                    fontSize: { xs: "1.125rem", md: "1.25rem" },
                     fontWeight: "bold",
                     color: "#550b14",
                     marginBottom: "8px",
@@ -158,23 +168,29 @@ export default function FloodTrackingModal() {
                 >
                   Peta Analisis Banjir
                 </DialogTitle>
-                <p style={{ fontSize: "0.875rem", color: "#7e6961" }}>
+                <Typography
+                  sx={{
+                    fontSize: { xs: "0.75rem", md: "0.875rem" },
+                    color: "#7e6961",
+                  }}
+                >
                   Sumatera Selatan
-                </p>
+                </Typography>
               </div>
 
               {/* Map Information */}
               <div style={{ marginBottom: "24px" }}>
-                <h3
-                  style={{
-                    fontSize: "1.125rem",
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontSize: { xs: "1rem", md: "1.125rem" },
                     fontWeight: 600,
                     color: "#550b14",
                     marginBottom: "16px",
                   }}
                 >
                   Informasi Peta
-                </h3>
+                </Typography>
                 <div
                   style={{
                     backgroundColor: "white",
@@ -208,20 +224,21 @@ export default function FloodTrackingModal() {
 
               {/* Parameter Selection */}
               <div style={{ marginBottom: "24px" }}>
-                <h3
-                  style={{
-                    fontSize: "1.125rem",
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontSize: { xs: "1rem", md: "1.125rem" },
                     fontWeight: 600,
                     color: "#550b14",
                     marginBottom: "16px",
                   }}
                 >
                   Pilih Parameter
-                </h3>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
+                </Typography>
+                <Box
+                  sx={{
+                    display: "grid",
+                    gridTemplateColumns: { xs: "repeat(2, 1fr)", md: "1fr" },
                     gap: "8px",
                   }}
                 >
@@ -237,9 +254,10 @@ export default function FloodTrackingModal() {
                       sx={{
                         width: "100%",
                         justifyContent: "flex-start",
-                        height: "48px",
+                        height: { xs: "40px", md: "48px" },
                         textAlign: "left",
                         textTransform: "none",
+                        fontSize: { xs: "0.875rem", md: "1rem" },
                         backgroundColor:
                           selectedParameter === param.key
                             ? "#550b14"
@@ -256,15 +274,15 @@ export default function FloodTrackingModal() {
                       {param.label}
                     </Button>
                   ))}
-                </div>
+                </Box>
               </div>
 
               {/* Download Section - Moved to DialogActions */}
-            </div>
+            </Box>
 
             {/* Main Map Area */}
-            <div
-              style={{
+            <Box
+              sx={{
                 flex: 1,
                 position: "relative",
                 backgroundColor: "#f1f3f4",
@@ -273,21 +291,21 @@ export default function FloodTrackingModal() {
                 justifyContent: "center",
               }}
             >
-              <div
-                style={{
+              <Box
+                sx={{
                   position: "relative",
                   width: "100%",
                   height: "100%",
                   maxWidth: "100%",
                   maxHeight: "100%",
-                  padding: "24px",
+                  padding: { xs: "12px", md: "24px" },
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                 }}
               >
-                <div
-                  style={{
+                <Box
+                  sx={{
                     position: "relative",
                     width: "auto",
                     height: "auto",
@@ -322,19 +340,21 @@ export default function FloodTrackingModal() {
                       objectFit: "contain",
                     }}
                   />
-                </div>
-              </div>
-            </div>
-          </div>
+                </Box>
+              </Box>
+            </Box>
+          </Box>
         </DialogContent>
 
         {/* Dialog Actions with Download Buttons */}
         <DialogActions
           sx={{
-            padding: "16px 24px",
+            padding: { xs: "12px 16px", md: "16px 24px" },
             backgroundColor: "#f9fafb",
             borderTop: "1px solid #cbc0b2",
             justifyContent: "space-between",
+            flexDirection: { xs: "column", sm: "row" },
+            gap: { xs: "12px", sm: "0" },
           }}
         >
           <div>
@@ -343,6 +363,8 @@ export default function FloodTrackingModal() {
               sx={{
                 color: "#550b14",
                 fontWeight: 600,
+                fontSize: { xs: "0.875rem", md: "1rem" },
+                textAlign: { xs: "center", sm: "left" },
               }}
             >
               {
@@ -352,7 +374,14 @@ export default function FloodTrackingModal() {
             </Typography>
           </div>
 
-          <div style={{ display: "flex", gap: "12px" }}>
+          <Box
+            sx={{
+              display: "flex",
+              gap: "12px",
+              flexDirection: { xs: "column", sm: "row" },
+              width: { xs: "100%", sm: "auto" },
+            }}
+          >
             <Button
               variant="outlined"
               onClick={() => handleDownload("PNG")}
@@ -360,6 +389,9 @@ export default function FloodTrackingModal() {
                 borderColor: "#550b14",
                 color: "#550b14",
                 textTransform: "none",
+                fontSize: { xs: "0.875rem", md: "1rem" },
+                padding: { xs: "8px 12px", md: "8px 16px" },
+                width: { xs: "100%", sm: "auto" },
                 "&:hover": {
                   backgroundColor: "#550b14",
                   color: "white",
@@ -376,6 +408,9 @@ export default function FloodTrackingModal() {
                 borderColor: "#550b14",
                 color: "#550b14",
                 textTransform: "none",
+                fontSize: { xs: "0.875rem", md: "1rem" },
+                padding: { xs: "8px 12px", md: "8px 16px" },
+                width: { xs: "100%", sm: "auto" },
                 "&:hover": {
                   backgroundColor: "#550b14",
                   color: "white",
@@ -391,6 +426,9 @@ export default function FloodTrackingModal() {
                 backgroundColor: "#550b14",
                 color: "white",
                 textTransform: "none",
+                fontSize: { xs: "0.875rem", md: "1rem" },
+                padding: { xs: "8px 12px", md: "8px 16px" },
+                width: { xs: "100%", sm: "auto" },
                 "&:hover": {
                   backgroundColor: "#7e6961",
                 },
@@ -398,7 +436,7 @@ export default function FloodTrackingModal() {
             >
               Tutup
             </Button>
-          </div>
+          </Box>
         </DialogActions>
       </Dialog>
     </>
