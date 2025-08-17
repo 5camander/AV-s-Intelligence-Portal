@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+    <link rel="stylesheet" href="css/leaflet.css">
+    <link rel="stylesheet" href="css/L.Control.Layers.Tree.css">
+    <link rel="stylesheet" href="css/qgis2web.css">
+    <link rel="stylesheet" href="css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="css/leaflet.photon.css">
+    <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        /* Judul */
+        .map-title {
+            background: rgb(4, 49, 98);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+        }
+        /* Info Box */
+        .info-box {
+            background: white;
+            color: black;
+            padding: 8px 12px;
+            margin-top: 5px;
+            border-radius: 6px;
+            font-size: 12px;
+            max-width: 250px;
+        }
+    </style>
+    <title>ANALISIS TITIK SUMUR SUMATERA SELATAN 🌊</title>
+</head>
+<body>
+    <div id="map"></div>
+
+    <script src="js/qgis2web_expressions.js"></script>
+    <script src="js/leaflet.js"></script>
+    <script src="js/L.Control.Layers.Tree.min.js"></script>
+    <script src="js/leaflet.rotatedMarker.js"></script>
+    <script src="js/leaflet.pattern.js"></script>
+    <script src="js/leaflet-hash.js"></script>
+    <script src="js/Autolinker.min.js"></script>
+    <script src="js/rbush.min.js"></script>
+    <script src="js/labelgun.min.js"></script>
+    <script src="js/labels.js"></script>
+    <script src="js/leaflet.photon.js"></script>
+    <script src="data/sungai_1.js"></script>
+    <script src="data/TitikSumur_2.js"></script>
+    <script src="data/BATAS_SUMSEL_3.js"></script>
+    <script>
+    var map = L.map('map', {
+        zoomControl:false, maxZoom:28, minZoom:1
+    }).fitBounds([[-3.878878263300157,101.60296818210311],[-2.19312109626474,109.51058481678452]]);
+
+    var hash = new L.Hash(map);
+    map.attributionControl.setPrefix('<a href="https://leafletjs.com">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+
+    // ---- Basemaps ----
+    var osmStandard = L.tileLayer('http://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    var osmTopo = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenTopoMap contributors'
+    });
+
+    var osmSat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles © Esri'
+    });
+
+    var osmDark = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '© Carto'
+    });
+
+    var baseMaps = {
+        "🌍 OSM Standard": osmStandard,
+        "🗺️ Topografi": osmTopo,
+        "🛰️ Satelit": osmSat,
+        "🌑 Dark Mode": osmDark
+    };
+
+    // ---- Judul di kanan atas ----
+    var title = L.control({position: 'topright'});
+    title.onAdd = function (map) {
+        var div = L.DomUtil.create('div', 'map-title');
+        div.innerHTML = 'ANALISIS TITIK SUMUR SUMATERA SELATAN 🌊';
+        return div;
+    };
+    title.addTo(map);
+
+    // ---- Box Informasi di bawah judul ----
+    var info = L.control({position: 'topright'});
+    info.onAdd = function (map) {
+        var div = L.DomUtil.create('div', 'info-box');
+        div.innerHTML = '<b>ℹ️ Informasi</b><br>Peta ini berisikan informasi mengenai titik sumur milik PT Pertamina Hulu Rokan Regional 1 di Sumatera Selatan. Pada setiap titik sumur memuat informasi nama sumur, status sumur, jenis tanah, kerawanan banjir, curah hujan, latitude, longitude, serta kabupaten. Segala informasi didapatkan melalui analisis spasial yang telah dilakukan oleh pembuat peta.';
+        return div;
+    };
+    info.addTo(map);
+
+    // ---- Layer Sungai ----
+    function style_sungai_1_0() {
+        return {
+            color: 'rgba(0,127,255,1.0)',
+            weight: 1.0,
+            fillOpacity: 0
+        };
+    }
+    var layer_sungai_1 = new L.geoJson(json_sungai_1, {
+        style: style_sungai_1_0,
+        interactive: false
+    });
+
+    // ---- Layer Titik Sumur ----
+function style_TitikSumur_2_0() {
+    return {
+        radius: 4.0,
+        color: 'rgba(35,35,35,1.0)',
+        weight: 1,
+        fillColor: 'rgba(231,113,72,1.0)',
+        fillOpacity: 1
+    };
+}
+
+function pop_TitikSumur_2(feature, layer) {
+    var popupContent = '<b>Nama Sumur:</b> ' + (feature.properties['Name'] || '-') +
+                       '<br><b>Status:</b> ' + (feature.properties['Status'] || '-') +
+                       '<br><b>Jenis Tanah:</b> ' + (feature.properties['Jns Tanah'] || '-') +
+                       '<br><b>Kerawanan Banjir:</b> ' + (feature.properties['Rwn Banjir'] || '-') +
+                       '<br><b>Curah Hujan:</b> ' + (feature.properties['Crh Hujan'] || '-') +
+                       '<br><b>Kabupaten:</b> ' + (feature.properties['Kabupaten'] || '-') +
+                       '<br><b>Latitude:</b> ' + (feature.properties['Latitude'] || '-') +
+                       '<br><b>Longitude:</b> ' + (feature.properties['Longitude'] || '-');
+    layer.bindPopup(popupContent);
+}
+
+
+var layer_TitikSumur_2 = new L.geoJson(json_TitikSumur_2, {
+    pointToLayer: function (feature, latlng) {
+        return L.circleMarker(latlng, style_TitikSumur_2_0());
+    },
+    onEachFeature: pop_TitikSumur_2
+});
+
+
+    // ---- Layer Batas Sumsel ----
+    function style_BATAS_SUMSEL_3_0() {
+        return {
+            color: 'rgba(35,35,35,1.0)',
+            weight: 2.0,
+            fillOpacity: 0
+        };
+    }
+    var layer_BATAS_SUMSEL_3 = new L.geoJson(json_BATAS_SUMSEL_3, {
+        style: style_BATAS_SUMSEL_3_0,
+        interactive: false
+    });
+
+    // Tambahkan ke map
+    map.addLayer(layer_sungai_1);
+    map.addLayer(layer_TitikSumur_2);
+    map.addLayer(layer_BATAS_SUMSEL_3);
+
+    // ---- Overlay Control ----
+    var overlays = {
+        "💧Sungai": layer_sungai_1,
+        "⛽ Titik Sumur": layer_TitikSumur_2,
+        "🗺️ Batas Sumatera Selatan": layer_BATAS_SUMSEL_3
+    };
+
+    L.control.layers(baseMaps, overlays, {collapsed:false, position:'topleft'}).addTo(map);
+
+    // Zoom Control
+    L.control.zoom({position: 'topleft'}).addTo(map);
+    </script>
+</body>
+</html>

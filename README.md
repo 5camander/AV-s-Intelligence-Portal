@@ -1,36 +1,128 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AVS Intelligence Portal
 
-## Getting Started
+A comprehensive flood tracking and intelligence portal built with Next.js, featuring interactive maps, real-time monitoring, and geospatial analysis.
 
-First, run the development server:
+## Step-by-Step Development Guide
+
+### Prerequisites
+
+Before you begin, make sure you have the following installed:
+
+- [Node.js](https://nodejs.org/) (version 18 or higher)
+- [Git](https://git-scm.com/)
+- A code editor (VS Code recommended)
+
+### Step 1: Create Next.js Application
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Create a new Next.js application
+npx create-next-app@latest avsintelligenceportal
+
+# Navigate to the project directory
+cd avsintelligenceportal
+
+# For all prompts, just press Enter to use default options
+# This will automatically set up:
+# ✅ TypeScript
+# ✅ ESLint
+# ✅ Tailwind CSS
+# ✅ src/ directory
+# ✅ App Router
+# ✅ Turbopack (for faster development)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Step 2: Project Structure Setup
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# Create additional directories for the project
+mkdir -p public/images
+mkdir -p public/pdf
+mkdir -p public/peta
+mkdir -p public/WebGIS
+mkdir -p src/components
+mkdir -p src/utils
+mkdir -p src/types
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Step 3: Install Additional Dependencies
 
-## Learn More
+Install the required packages for the project:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+# Install UI and styling dependencies
+npm install @mui/material @emotion/react @emotion/styled
+npm install lucide-react
+npm install tailwindcss-animate
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# The core dependencies (next, react, react-dom, typescript, tailwindcss, eslint)
+# are automatically installed by create-next-app
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Step 4: Development
 
-## Deploy on Vercel
+```bash
+# Start the development server
+npm run dev
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Your application will be available at:
+# http://localhost:3000
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Step 5: Build for Production
+
+```bash
+# Create an optimized production build
+npm run build
+
+# Test the production build locally
+npm start
+```
+
+### Step 6: Deploy to Vercel
+
+#### Option A: Deploy via Vercel CLI
+
+```bash
+# Install Vercel CLI globally
+npm install -g vercel
+
+# Login to your Vercel account
+vercel login
+
+# Deploy the project
+vercel
+
+# Follow the prompts:
+# - Set up and deploy? Yes
+# - Which scope? Select your account
+# - Link to existing project? No (for new project)
+# - Project name: avsintelligenceportal
+# - Directory: ./
+# - Override settings? No
+```
+
+#### Option B: Deploy via GitHub Integration
+
+1. Push your code to GitHub:
+
+   ```bash
+   git add .
+   git commit -m "Initial commit"
+   git branch -M main
+   git remote add origin https://github.com/yourusername/avsintelligenceportal.git
+   git push -u origin main
+   ```
+
+2. Go to [Vercel Dashboard](https://vercel.com/dashboard)
+3. Click "New Project"
+4. Import your GitHub repository
+5. Configure build settings (Vercel will auto-detect Next.js)
+6. Deploy!
+
+### Project Features
+
+- 🗺️ Interactive flood tracking maps using Leaflet
+- 📊 Real-time data visualization
+- 📱 Responsive design for all devices
+- 🌊 Flood risk analysis and monitoring
+- 📁 Document and map management system

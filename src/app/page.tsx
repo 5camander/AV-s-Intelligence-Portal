@@ -120,7 +120,7 @@ export default function Home() {
                   </div>
                   <div className="relative h-[250px] rounded-lg overflow-hidden">
                     <Image
-                      src={"/AV-s-Intelligence-Portal/images/banjir.jpg"}
+                      src={"/images/banjir.jpg"}
                       alt="Flood Tracking"
                       fill
                       className="object-cover"
@@ -589,7 +589,7 @@ export default function Home() {
             <div className="flex justify-center items-center gap-8 mb-6">
               <div className="relative w-20 h-20">
                 <Image
-                  src={"/AV-s-Intelligence-Portal/images/footer-1.png"}
+                  src={"/images/footer-1.png"}
                   alt="Partner Logo 1"
                   fill
                   className="object-contain"
@@ -597,7 +597,7 @@ export default function Home() {
               </div>
               <div className="relative w-20 h-20">
                 <Image
-                  src={"/AV-s-Intelligence-Portal/images/footer-2.png"}
+                  src={"/images/footer-2.png"}
                   alt="Partner Logo 2"
                   fill
                   className="object-contain"
@@ -605,7 +605,7 @@ export default function Home() {
               </div>
               <div className="relative w-16 h-16">
                 <Image
-                  src={"/AV-s-Intelligence-Portal/images/footer-3.png"}
+                  src={"/images/footer-3.png"}
                   alt="Partner Logo 3"
                   fill
                   className="object-contain"

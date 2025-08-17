@@ -11,6 +11,10 @@ import {
   DialogTitle,
   DialogActions,
   Box,
+  FormControl,
+  Select,
+  MenuItem,
+  InputLabel,
 } from "@mui/material";
 
 export default function FloodTrackingModal() {
@@ -21,38 +25,38 @@ export default function FloodTrackingModal() {
     curahhujan: {
       title: "Peta Curah Hujan",
       description:
-        "Analisis distribusi curah hujan dan intensitas presipitasi di wilayah Sumatera Selatan",
-      image: "/AV-s-Intelligence-Portal/peta/curahhujan.png",
+        "Analisis distribusi curah hujan dan tingkat kerawanannya terhadap banjir di wilayah Sumatera Selatan",
+      image: "/peta/curahhujan.png",
     },
     kelerengan: {
       title: "Peta Kelerengan",
       description:
         "Analisis kemiringan lereng yang mempengaruhi aliran air permukaan dan resiko banjir",
-      image: "/AV-s-Intelligence-Portal/peta/Kelerengan.png",
+      image: "/peta/Kelerengan.png",
     },
     ketinggian: {
       title: "Peta Ketinggian",
       description:
         "Analisis elevasi dan topografi wilayah untuk identifikasi daerah rawan genangan",
-      image: "/AV-s-Intelligence-Portal/peta/ketinggiankedua.png",
+      image: "/peta/ketinggiankedua.png",
     },
     jenis_tanah: {
       title: "Peta Jenis Tanah",
       description:
-        "Klasifikasi jenis tanah dan kemampuan infiltrasi air ke dalam tanah",
-      image: "/AV-s-Intelligence-Portal/peta/PETAJENISTANAH.png",
+        "Analisis jenis tanah di Sumatera Selatan dan klasifikasi berdasarkan karakteristiknya",
+      image: "/peta/PETAJENISTANAH.png",
     },
     kerapatan_sungai: {
       title: "Peta Kerapatan Aliran Sungai",
       description:
-        "Analisis jaringan sungai dan kerapatan aliran yang mempengaruhi drainase alami",
-      image: "/AV-s-Intelligence-Portal/peta/PETAKERAPATANALIRANSUNGAI.png",
+        "Analisis kerapatan jaringan sungai pada daerah aliran sungai (DAS) di Sumatera Selatan",
+      image: "/peta/PETAKERAPATANALIRANSUNGAI.png",
     },
     tutupan_lahan: {
       title: "Peta Tutupan Lahan",
       description:
         "Klasifikasi penggunaan dan tutupan lahan serta dampaknya terhadap aliran permukaan",
-      image: "/AV-s-Intelligence-Portal/peta/tutupanlahan.png",
+      image: "/peta/tutupanlahan.png",
     },
   };
 
@@ -82,10 +86,10 @@ export default function FloodTrackingModal() {
     let downloadFileName = "";
 
     if (format === "PDF") {
-      fileUrl = `/AV-s-Intelligence-Portal/pdf/${fileName}.pdf`;
+      fileUrl = `/pdf/${fileName}.pdf`;
       downloadFileName = `${fileName}.pdf`;
     } else if (format === "PNG") {
-      fileUrl = `/AV-s-Intelligence-Portal/peta/${fileName}.png`;
+      fileUrl = `/peta/${fileName}.png`;
       downloadFileName = `${fileName}.png`;
     }
 
@@ -95,7 +99,6 @@ export default function FloodTrackingModal() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-
   };
 
   const handleClose = () => {
@@ -152,8 +155,9 @@ export default function FloodTrackingModal() {
                 borderRight: { xs: "none", md: "1px solid #cbc0b2" },
                 borderBottom: { xs: "1px solid #cbc0b2", md: "none" },
                 padding: { xs: "16px", md: "24px" },
-                overflowY: "auto",
-                maxHeight: { xs: "40vh", md: "100%" },
+                display: "flex",
+                flexDirection: "column",
+                height: { xs: "auto", md: "100%" },
               }}
             >
               <div style={{ marginBottom: "24px" }}>
@@ -166,16 +170,38 @@ export default function FloodTrackingModal() {
                     marginBottom: "8px",
                   }}
                 >
-                  Peta Analisis Banjir
+                  Analisis Titik Sumur
                 </DialogTitle>
                 <Typography
                   sx={{
                     fontSize: { xs: "0.75rem", md: "0.875rem" },
                     color: "#7e6961",
+                    marginBottom: "12px",
                   }}
                 >
                   Sumatera Selatan
                 </Typography>
+                <Button
+                  onClick={() =>
+                    window.open(
+                      "/WebGIS/Trying2.html",
+                      "_blank"
+                    )
+                  }
+                  sx={{
+                    backgroundColor: "#550b14",
+                    color: "white",
+                    textTransform: "none",
+                    fontSize: { xs: "0.75rem", md: "0.875rem" },
+                    padding: { xs: "6px 12px", md: "8px 16px" },
+                    width: "100%",
+                    "&:hover": {
+                      backgroundColor: "#7e6961",
+                    },
+                  }}
+                >
+                  🗺️ Buka WebGIS
+                </Button>
               </div>
 
               {/* Map Information */}
@@ -235,10 +261,53 @@ export default function FloodTrackingModal() {
                 >
                   Pilih Parameter
                 </Typography>
+
+                {/* Mobile Dropdown */}
+                <Box sx={{ display: { xs: "block", md: "none" } }}>
+                  <FormControl fullWidth>
+                    <InputLabel
+                      sx={{
+                        color: "#550b14",
+                        "&.Mui-focused": {
+                          color: "#550b14",
+                        },
+                      }}
+                    >
+                      Parameter
+                    </InputLabel>
+                    <Select
+                      value={selectedParameter}
+                      label="Parameter"
+                      onChange={(e) => setSelectedParameter(e.target.value)}
+                      sx={{
+                        "& .MuiOutlinedInput-notchedOutline": {
+                          borderColor: "#cbc0b2",
+                        },
+                        "&:hover .MuiOutlinedInput-notchedOutline": {
+                          borderColor: "#550b14",
+                        },
+                        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                          borderColor: "#550b14",
+                        },
+                        "& .MuiSelect-select": {
+                          color: "#550b14",
+                        },
+                      }}
+                    >
+                      {parameterButtons.map((param) => (
+                        <MenuItem key={param.key} value={param.key}>
+                          {param.label}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Box>
+
+                {/* Tablet/Desktop Buttons */}
                 <Box
                   sx={{
-                    display: "grid",
-                    gridTemplateColumns: { xs: "repeat(2, 1fr)", md: "1fr" },
+                    display: { xs: "none", md: "grid" },
+                    gridTemplateColumns: "1fr",
                     gap: "8px",
                   }}
                 >
@@ -254,10 +323,10 @@ export default function FloodTrackingModal() {
                       sx={{
                         width: "100%",
                         justifyContent: "flex-start",
-                        height: { xs: "40px", md: "48px" },
+                        height: "48px",
                         textAlign: "left",
                         textTransform: "none",
-                        fontSize: { xs: "0.875rem", md: "1rem" },
+                        fontSize: "1rem",
                         backgroundColor:
                           selectedParameter === param.key
                             ? "#550b14"
@@ -377,49 +446,65 @@ export default function FloodTrackingModal() {
           <Box
             sx={{
               display: "flex",
-              gap: "12px",
               flexDirection: { xs: "column", sm: "row" },
+              gap: { xs: "12px", sm: "8px" },
               width: { xs: "100%", sm: "auto" },
             }}
           >
-            <Button
-              variant="outlined"
-              onClick={() => handleDownload("PNG")}
+            {/* Download Buttons - Side by Side on Mobile Only */}
+            <Box
               sx={{
-                borderColor: "#550b14",
-                color: "#550b14",
-                textTransform: "none",
-                fontSize: { xs: "0.875rem", md: "1rem" },
-                padding: { xs: "8px 12px", md: "8px 16px" },
+                display: { xs: "flex", sm: "contents" },
+                gap: { xs: "8px", sm: "0" },
+                flexDirection: { xs: "row", sm: "row" },
                 width: { xs: "100%", sm: "auto" },
-                "&:hover": {
-                  backgroundColor: "#550b14",
-                  color: "white",
-                },
               }}
             >
-              <Download style={{ width: 16, height: 16, marginRight: 8 }} />
-              Download PNG
-            </Button>
-            <Button
-              variant="outlined"
-              onClick={() => handleDownload("PDF")}
-              sx={{
-                borderColor: "#550b14",
-                color: "#550b14",
-                textTransform: "none",
-                fontSize: { xs: "0.875rem", md: "1rem" },
-                padding: { xs: "8px 12px", md: "8px 16px" },
-                width: { xs: "100%", sm: "auto" },
-                "&:hover": {
-                  backgroundColor: "#550b14",
-                  color: "white",
-                },
-              }}
-            >
-              <Download style={{ width: 16, height: 16, marginRight: 8 }} />
-              Download PDF
-            </Button>
+              <Button
+                variant="outlined"
+                onClick={() => handleDownload("PNG")}
+                sx={{
+                  borderColor: "#550b14",
+                  color: "#550b14",
+                  textTransform: "none",
+                  fontSize: { xs: "0.875rem", md: "1rem" },
+                  padding: { xs: "8px 12px", md: "8px 16px" },
+                  flex: { xs: 1, sm: "0 1 auto" },
+                  width: { xs: "auto", sm: "auto" },
+                  marginRight: { xs: "0", sm: "8px" },
+                  "&:hover": {
+                    backgroundColor: "#550b14",
+                    color: "white",
+                  },
+                }}
+              >
+                <Download style={{ width: 16, height: 16, marginRight: 8 }} />
+                Download PNG
+              </Button>
+              <Button
+                variant="outlined"
+                onClick={() => handleDownload("PDF")}
+                sx={{
+                  borderColor: "#550b14",
+                  color: "#550b14",
+                  textTransform: "none",
+                  fontSize: { xs: "0.875rem", md: "1rem" },
+                  padding: { xs: "8px 12px", md: "8px 16px" },
+                  flex: { xs: 1, sm: "0 1 auto" },
+                  width: { xs: "auto", sm: "auto" },
+                  marginRight: { xs: "0", sm: "8px" },
+                  "&:hover": {
+                    backgroundColor: "#550b14",
+                    color: "white",
+                  },
+                }}
+              >
+                <Download style={{ width: 16, height: 16, marginRight: 8 }} />
+                Download PDF
+              </Button>
+            </Box>
+
+            {/* Close Button */}
             <Button
               onClick={handleClose}
               sx={{
