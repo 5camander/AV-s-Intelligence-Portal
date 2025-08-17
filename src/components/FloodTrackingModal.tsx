@@ -116,7 +116,7 @@ export default function FloodTrackingModal() {
       setSelectedParameter(newParameter);
     }
   };
-
+ 
   const handleImageLoad = () => {
     console.log("Image loaded successfully");
     setImageLoading(false);
