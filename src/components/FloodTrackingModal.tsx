@@ -219,7 +219,7 @@ export default function FloodTrackingModal() {
                 <Button
                   onClick={() => {
                     const webgisWindow = window.open(
-                      "/WebGIS/sumatera-selatan.html",
+                      "/webgis/sumatera-selatan.html",
                       "_blank",
                       "noopener,noreferrer"
                     );
