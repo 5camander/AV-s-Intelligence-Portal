@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Download } from "lucide-react";
 import {
@@ -15,11 +15,13 @@ import {
   Select,
   MenuItem,
   InputLabel,
+  Skeleton,
 } from "@mui/material";
 
 export default function FloodTrackingModal() {
   const [selectedParameter, setSelectedParameter] = useState("curahhujan");
   const [open, setOpen] = useState(false);
+  const [imageLoading, setImageLoading] = useState(true);
 
   const mapParameters = {
     curahhujan: {
@@ -104,12 +106,45 @@ export default function FloodTrackingModal() {
   const handleClose = () => {
     setOpen(false);
     setSelectedParameter("curahhujan");
+    setImageLoading(true);
   };
+
+  const handleParameterChange = (newParameter: string) => {
+    // Only set loading if parameter actually changes
+    if (newParameter !== selectedParameter) {
+      setImageLoading(true);
+      setSelectedParameter(newParameter);
+    }
+  };
+
+  const handleImageLoad = () => {
+    console.log("Image loaded successfully");
+    setImageLoading(false);
+  };
+
+  const handleImageError = () => {
+    console.log("Image failed to load");
+    setImageLoading(false);
+  };
+
+  // Add timeout fallback to prevent infinite loading
+  useEffect(() => {
+    if (imageLoading) {
+      const timeoutId = setTimeout(() => {
+        setImageLoading(false);
+      }, 5000); // 5 second timeout
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [imageLoading, selectedParameter]);
 
   return (
     <>
       <Button
-        onClick={() => setOpen(true)}
+        onClick={() => {
+          setOpen(true);
+          setImageLoading(true);
+        }}
         sx={{
           backgroundColor: "#550b14",
           color: "#f8f8f7",
@@ -182,12 +217,17 @@ export default function FloodTrackingModal() {
                   Sumatera Selatan
                 </Typography>
                 <Button
-                  onClick={() =>
-                    window.open(
-                      "/WebGIS/Trying2.html",
-                      "_blank"
-                    )
-                  }
+                  onClick={() => {
+                    const webgisWindow = window.open(
+                      "/WebGIS/sumatera-selatan.html",
+                      "_blank",
+                      "noopener,noreferrer"
+                    );
+                    // Prevent hash changes from affecting parent window
+                    if (webgisWindow) {
+                      webgisWindow.focus();
+                    }
+                  }}
                   sx={{
                     backgroundColor: "#550b14",
                     color: "white",
@@ -278,7 +318,7 @@ export default function FloodTrackingModal() {
                     <Select
                       value={selectedParameter}
                       label="Parameter"
-                      onChange={(e) => setSelectedParameter(e.target.value)}
+                      onChange={(e) => handleParameterChange(e.target.value)}
                       sx={{
                         "& .MuiOutlinedInput-notchedOutline": {
                           borderColor: "#cbc0b2",
@@ -319,7 +359,7 @@ export default function FloodTrackingModal() {
                           ? "contained"
                           : "outlined"
                       }
-                      onClick={() => setSelectedParameter(param.key)}
+                      onClick={() => handleParameterChange(param.key)}
                       sx={{
                         width: "100%",
                         justifyContent: "flex-start",
@@ -387,7 +427,56 @@ export default function FloodTrackingModal() {
                     boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
                   }}
                 >
+                  {imageLoading && (
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        minHeight: { xs: "300px", md: "500px" },
+                        minWidth: { xs: "300px", md: "600px" },
+                        position: "relative",
+                      }}
+                    >
+                      <Skeleton
+                        variant="rectangular"
+                        sx={{
+                          width: "100%",
+                          height: "100%",
+                          minHeight: { xs: "300px", md: "500px" },
+                          minWidth: { xs: "300px", md: "600px" },
+                          borderRadius: "8px",
+                          backgroundColor: "#e5e7eb",
+                          "&::after": {
+                            background:
+                              "linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)",
+                          },
+                        }}
+                      />
+                      <Box
+                        sx={{
+                          position: "absolute",
+                          top: "50%",
+                          left: "50%",
+                          transform: "translate(-50%, -50%)",
+                          textAlign: "center",
+                          color: "#7e6961",
+                        }}
+                      >
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            fontSize: { xs: "0.875rem", md: "1rem" },
+                            fontWeight: 500,
+                          }}
+                        >
+                          Memuat peta...
+                        </Typography>
+                      </Box>
+                    </Box>
+                  )}
                   <Image
+                    key={selectedParameter} // Force re-render when parameter changes
                     src={
                       mapParameters[
                         selectedParameter as keyof typeof mapParameters
@@ -401,12 +490,16 @@ export default function FloodTrackingModal() {
                     width={0}
                     height={0}
                     sizes="100vw"
+                    onLoad={handleImageLoad}
+                    onError={handleImageError}
+                    priority
                     style={{
                       width: "auto",
                       height: "auto",
                       maxWidth: "100%",
                       maxHeight: "calc(90vh - 120px)",
                       objectFit: "contain",
+                      display: imageLoading ? "none" : "block",
                     }}
                   />
                 </Box>

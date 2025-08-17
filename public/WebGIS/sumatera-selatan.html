@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
     <link rel="stylesheet" href="css/leaflet.css">
-    <link rel="stylesheet" href="css/L.Control.Layers.Tree.css">
+    <!-- <link rel="stylesheet" href="css/L.Control.Layers.Tree.css"> -->
     <link rel="stylesheet" href="css/qgis2web.css">
     <link rel="stylesheet" href="css/fontawesome-all.min.css">
     <link rel="stylesheet" href="css/leaflet.photon.css">
@@ -44,10 +44,10 @@
 
     <script src="js/qgis2web_expressions.js"></script>
     <script src="js/leaflet.js"></script>
-    <script src="js/L.Control.Layers.Tree.min.js"></script>
+    <!-- <script src="js/L.Control.Layers.Tree.min.js"></script> -->
     <script src="js/leaflet.rotatedMarker.js"></script>
     <script src="js/leaflet.pattern.js"></script>
-    <script src="js/leaflet-hash.js"></script>
+    <!-- <script src="js/leaflet-hash.js"></script> -->
     <script src="js/Autolinker.min.js"></script>
     <script src="js/rbush.min.js"></script>
     <script src="js/labelgun.min.js"></script>
@@ -61,7 +61,7 @@
         zoomControl:false, maxZoom:28, minZoom:1
     }).fitBounds([[-3.878878263300157,101.60296818210311],[-2.19312109626474,109.51058481678452]]);
 
-    var hash = new L.Hash(map);
+    // var hash = new L.Hash(map); // Disabled hash to prevent URL changes
     map.attributionControl.setPrefix('<a href="https://leafletjs.com">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
 
     // ---- Basemaps ----
