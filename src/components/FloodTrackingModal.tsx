@@ -116,7 +116,7 @@ export default function FloodTrackingModal() {
       setSelectedParameter(newParameter);
     }
   };
- 
+
   const handleImageLoad = () => {
     console.log("Image loaded successfully");
     setImageLoading(false);
@@ -219,7 +219,7 @@ export default function FloodTrackingModal() {
                 <Button
                   onClick={() => {
                     const webgisWindow = window.open(
-                      "/webgis/sumatera-selatan.html",
+                      "/webgis/sumatera-selatan",
                       "_blank",
                       "noopener,noreferrer"
                     );
