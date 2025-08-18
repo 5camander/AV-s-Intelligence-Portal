@@ -45,14 +45,26 @@
                 padding: 6px 8px;
                 margin-bottom: 10px;
                 position: fixed !important;
-                bottom: 80px !important;
                 left: 20px !important; 
                 right: 20px !important; 
-                top: auto !important;
                 z-index: 1000;
                 box-sizing: border-box; 
-                /* Tambahkan safe area untuk menghindari address bar */
+            }
+            
+            /* Untuk info box yang di bottom-left (mobile) */
+            .leaflet-bottom.leaflet-left .info-box {
+                bottom: 80px !important;
+                top: auto !important;
+                /* Tambahkan safe area untuk menghindari bottom address bar */
                 bottom: max(80px, calc(80px + env(safe-area-inset-bottom))) !important;
+            }
+            
+            /* Untuk info box yang di top-right (desktop yang di-resize kecil) */
+            .leaflet-top.leaflet-right .info-box {
+                top: 80px !important;
+                bottom: auto !important;
+                /* Tambahkan safe area untuk menghindari top address bar */
+                top: max(80px, calc(80px + env(safe-area-inset-top))) !important;
             }
         }
         
