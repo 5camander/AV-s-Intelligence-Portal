@@ -36,6 +36,15 @@
             font-size: 12px;
             max-width: 250px;
         }
+        
+        /* Media query untuk mobile */
+        @media (max-width: 768px) {
+            .info-box {
+                max-width: 90%;
+                font-size: 11px;
+                padding: 6px 10px;
+            }
+        }
     </style>
     <title>ANALISIS TITIK SUMUR SUMATERA SELATAN 🌊</title>
 </head>
@@ -98,7 +107,8 @@
     title.addTo(map);
 
     // ---- Box Informasi di bawah judul ----
-    var info = L.control({position: 'topright'});
+    var infoPosition = window.innerWidth <= 768 ? 'bottomright' : 'topright';
+    var info = L.control({position: infoPosition});
     info.onAdd = function (map) {
         var div = L.DomUtil.create('div', 'info-box');
         div.innerHTML = '<b>ℹ️ Informasi</b><br>Peta ini berisikan informasi mengenai titik sumur milik PT Pertamina Hulu Rokan Regional 1 di Sumatera Selatan. Pada setiap titik sumur memuat informasi nama sumur, status sumur, jenis tanah, kerawanan banjir, curah hujan, latitude, longitude, serta kabupaten. Segala informasi didapatkan melalui analisis spasial yang telah dilakukan oleh pembuat peta.';

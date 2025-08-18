@@ -18,22 +18,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { path: string[] } }
-) {
-  try {
-    const filePath = join(process.cwd(), "webgis-static", ...params.path);
-    const fileContent = await readFile(filePath, "utf8");
-
-    return new NextResponse(fileContent, {
-      headers: {
-        "Content-Type": "text/html",
-      },
-    });
-  } catch (error) {
-    return new NextResponse("File not found", { status: 404 });
-  }
-}
-
 export default nextConfig;
