@@ -40,9 +40,17 @@
         /* Media query untuk mobile */
         @media (max-width: 768px) {
             .info-box {
-                max-width: 90%;
-                font-size: 11px;
-                padding: 6px 10px;
+                max-width: calc(100% - 40px); 
+                font-size: 10px;
+                padding: 6px 8px;
+                margin-bottom: 10px;
+                position: fixed !important;
+                bottom: 10px !important;
+                left: 20px !important; 
+                right: 20px !important; 
+                top: auto !important;
+                z-index: 1000;
+                box-sizing: border-box; 
             }
         }
     </style>
@@ -97,8 +105,9 @@
         "🌑 Dark Mode": osmDark
     };
 
-    // ---- Judul di kanan atas ----
-    var title = L.control({position: 'topright'});
+    // ---- Judul  ----
+    var titlePosition = window.innerWidth <= 768 ? 'topleft' : 'topright';
+    var title = L.control({position: titlePosition});
     title.onAdd = function (map) {
         var div = L.DomUtil.create('div', 'map-title');
         div.innerHTML = 'ANALISIS TITIK SUMUR SUMATERA SELATAN 🌊';
@@ -107,7 +116,7 @@
     title.addTo(map);
 
     // ---- Box Informasi di bawah judul ----
-    var infoPosition = window.innerWidth <= 768 ? 'bottomright' : 'topright';
+    var infoPosition = window.innerWidth <= 768 ? 'bottomleft' : 'topright';
     var info = L.control({position: infoPosition});
     info.onAdd = function (map) {
         var div = L.DomUtil.create('div', 'info-box');
