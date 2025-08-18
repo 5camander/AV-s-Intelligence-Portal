@@ -18,10 +18,38 @@ import {
   Skeleton,
 } from "@mui/material";
 
+// Custom hook to handle window dimensions safely
+function useWindowDimensions() {
+  const [windowDimensions, setWindowDimensions] = useState({
+    width: 0,
+    height: 0,
+  });
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowDimensions({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    }
+
+    // Set initial dimensions
+    handleResize();
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return windowDimensions;
+}
+
 export default function FloodTrackingModal() {
   const [selectedParameter, setSelectedParameter] = useState("curahhujan");
   const [open, setOpen] = useState(false);
   const [imageLoading, setImageLoading] = useState(true);
+  const [infoExpanded, setInfoExpanded] = useState(false);
+  const { width } = useWindowDimensions();
+  const isMobile = width <= 768;
 
   const mapParameters = {
     curahhujan: {
@@ -189,20 +217,20 @@ export default function FloodTrackingModal() {
                 backgroundColor: "#f9fafb",
                 borderRight: { xs: "none", md: "1px solid #cbc0b2" },
                 borderBottom: { xs: "1px solid #cbc0b2", md: "none" },
-                padding: { xs: "16px", md: "24px" },
+                padding: { xs: "12px", md: "24px" },
                 display: "flex",
                 flexDirection: "column",
                 height: { xs: "auto", md: "100%" },
               }}
             >
-              <div style={{ marginBottom: "24px" }}>
+              <div style={{ marginBottom: isMobile ? "16px" : "24px" }}>
                 <DialogTitle
                   sx={{
                     padding: 0,
                     fontSize: { xs: "1.125rem", md: "1.25rem" },
                     fontWeight: "bold",
                     color: "#550b14",
-                    marginBottom: "8px",
+                    marginBottom: { xs: "4px", md: "8px" },
                   }}
                 >
                   Analisis Titik Sumur
@@ -211,7 +239,7 @@ export default function FloodTrackingModal() {
                   sx={{
                     fontSize: { xs: "0.75rem", md: "0.875rem" },
                     color: "#7e6961",
-                    marginBottom: "12px",
+                    marginBottom: { xs: "8px", md: "12px" },
                   }}
                 >
                   Sumatera Selatan
@@ -245,24 +273,46 @@ export default function FloodTrackingModal() {
               </div>
 
               {/* Map Information */}
-              <div style={{ marginBottom: "24px" }}>
+              <div style={{ marginBottom: isMobile ? "16px" : "24px" }}>
                 <Typography
                   variant="h6"
                   sx={{
                     fontSize: { xs: "1rem", md: "1.125rem" },
                     fontWeight: 600,
                     color: "#550b14",
-                    marginBottom: "16px",
+                    marginBottom: { xs: "8px", md: "16px" },
+                    display: { xs: "flex", md: "block" },
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    cursor: { xs: "pointer", md: "default" },
                   }}
+                  onClick={() => setInfoExpanded(!infoExpanded)}
                 >
                   Informasi Peta
+                  <Typography
+                    component="span"
+                    sx={{
+                      display: { xs: "inline", md: "none" },
+                      fontSize: "0.875rem",
+                      color: "#7e6961",
+                      transform: infoExpanded ? "rotate(180deg)" : "rotate(0deg)",
+                      transition: "transform 0.2s ease",
+                    }}
+                  >
+                    ▼
+                  </Typography>
                 </Typography>
                 <div
                   style={{
                     backgroundColor: "white",
                     borderRadius: "8px",
-                    padding: "16px",
+                    padding: isMobile ? "12px" : "16px",
                     border: "1px solid #cbc0b2",
+                    maxHeight: isMobile ? (infoExpanded ? "200px" : "0px") : "auto",
+                    overflow: "hidden",
+                    transition: "max-height 0.3s ease, padding 0.3s ease",
+                    paddingTop: isMobile ? (infoExpanded ? "12px" : "0px") : "16px",
+                    paddingBottom: isMobile ? (infoExpanded ? "12px" : "0px") : "16px",
                   }}
                 >
                   <h4
@@ -270,6 +320,7 @@ export default function FloodTrackingModal() {
                       fontWeight: 600,
                       color: "#550b14",
                       marginBottom: "8px",
+                      fontSize: isMobile ? "0.875rem" : "1rem",
                     }}
                   >
                     {
@@ -278,7 +329,11 @@ export default function FloodTrackingModal() {
                       ].title
                     }
                   </h4>
-                  <p style={{ fontSize: "0.875rem", color: "#7e6961" }}>
+                  <p style={{ 
+                    fontSize: isMobile ? "0.75rem" : "0.875rem", 
+                    color: "#7e6961",
+                    lineHeight: "1.4",
+                  }}>
                     {
                       mapParameters[
                         selectedParameter as keyof typeof mapParameters
@@ -289,14 +344,14 @@ export default function FloodTrackingModal() {
               </div>
 
               {/* Parameter Selection */}
-              <div style={{ marginBottom: "24px" }}>
+              <div style={{ marginBottom: isMobile ? "16px" : "24px" }}>
                 <Typography
                   variant="h6"
                   sx={{
                     fontSize: { xs: "1rem", md: "1.125rem" },
                     fontWeight: 600,
                     color: "#550b14",
-                    marginBottom: "16px",
+                    marginBottom: { xs: "8px", md: "16px" },
                   }}
                 >
                   Pilih Parameter
