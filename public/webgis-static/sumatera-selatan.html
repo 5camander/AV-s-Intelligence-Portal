@@ -45,12 +45,14 @@
                 padding: 6px 8px;
                 margin-bottom: 10px;
                 position: fixed !important;
-                bottom: 10px !important;
+                bottom: 80px !important;
                 left: 20px !important; 
                 right: 20px !important; 
                 top: auto !important;
                 z-index: 1000;
                 box-sizing: border-box; 
+                /* Tambahkan safe area untuk menghindari address bar */
+                bottom: max(80px, calc(80px + env(safe-area-inset-bottom))) !important;
             }
         }
         
