@@ -44,7 +44,7 @@ function useWindowDimensions() {
 }
 
 export default function FloodTrackingModal() {
-  const [selectedParameter, setSelectedParameter] = useState("curahhujan");
+  const [selectedParameter, setSelectedParameter] = useState("muaraenim");
   const [open, setOpen] = useState(false);
   const [imageLoading, setImageLoading] = useState(true);
   const [infoExpanded, setInfoExpanded] = useState(false);
@@ -52,61 +52,53 @@ export default function FloodTrackingModal() {
   const isMobile = width <= 768;
 
   const mapParameters = {
-    curahhujan: {
-      title: "Peta Curah Hujan",
+    muaraenim: {
+      title: "Kabupaten Muara Enim",
       description:
-        "Analisis distribusi curah hujan dan tingkat kerawanannya terhadap banjir di wilayah Sumatera Selatan",
-      image: "/peta/curahhujan.png",
+        "Analisis titik sumur terhadap tingkat kerawanan banjir di Kabupaten Muara Enim",
+      image: "/rawanbanjir/MuaraEnim.png",
     },
-    kelerengan: {
-      title: "Peta Kelerengan",
+    musirawas: {
+      title: "Kabupaten Musi Rawas",
       description:
-        "Analisis kemiringan lereng yang mempengaruhi aliran air permukaan dan resiko banjir",
-      image: "/peta/Kelerengan.png",
+        "Analisis titik sumur terhadap tingkat kerawanan banjir di Kabupaten Musi Rawas",
+      image: "/rawanbanjir/MusiRawas.png",
     },
-    ketinggian: {
-      title: "Peta Ketinggian",
+    musibanyuasin: {
+      title: "Kabupaten Musi Banyuasin",
       description:
-        "Analisis elevasi dan topografi wilayah untuk identifikasi daerah rawan genangan",
-      image: "/peta/ketinggiankedua.png",
+        "Analisis titik sumur terhadap tingkat kerawanan banjir di Kabupaten Musi Banyuasin",
+      image: "/rawanbanjir/MusiBanyuasin.png",
     },
-    jenis_tanah: {
-      title: "Peta Jenis Tanah",
+    banyuasin: {
+      title: "Kabupaten Banyuasin",
       description:
-        "Analisis jenis tanah di Sumatera Selatan dan klasifikasi berdasarkan karakteristiknya",
-      image: "/peta/PETAJENISTANAH.png",
+        "Analisis titik sumur terhadap tingkat kerawanan banjir di Kabupaten Banyuasin",
+      image: "/rawanbanjir/Banyuasin.png",
     },
-    kerapatan_sungai: {
-      title: "Peta Kerapatan Aliran Sungai",
+    penukal: {
+      title: "Kabupaten Penukal Abab Lematang Ilir",
       description:
-        "Analisis kerapatan jaringan sungai pada daerah aliran sungai (DAS) di Sumatera Selatan",
-      image: "/peta/PETAKERAPATANALIRANSUNGAI.png",
-    },
-    tutupan_lahan: {
-      title: "Peta Tutupan Lahan",
-      description:
-        "Klasifikasi penggunaan dan tutupan lahan serta dampaknya terhadap aliran permukaan",
-      image: "/peta/tutupanlahan.png",
+        "Analisis titik sumur terhadap tingkat kerawanan banjir di Kabupaten Penukal Abab Lematang Ilir",
+      image: "/rawanbanjir/PenukalAbabLematangIlir.png",
     },
   };
 
   const parameterButtons = [
-    { key: "curahhujan", label: "Curah Hujan" },
-    { key: "kelerengan", label: "Kelerengan" },
-    { key: "ketinggian", label: "Ketinggian" },
-    { key: "jenis_tanah", label: "Jenis Tanah" },
-    { key: "kerapatan_sungai", label: "Kerapatan Sungai" },
-    { key: "tutupan_lahan", label: "Tutupan Lahan" },
+    { key: "muaraenim", label: "Kabupaten Muara Enim" },
+    { key: "musirawas", label: "Kabupaten Musi Rawas" },
+    { key: "musibanyuasin", label: "Kabupaten Musi Banyuasin" },
+    { key: "banyuasin", label: "Kabupaten Banyuasin" },
+    { key: "penukal", label: "Kabupaten Penukal Abab Lematang Ilir" },
   ];
 
   // Mapping parameter keys to actual file names
   const fileMapping = {
-    curahhujan: "curahhujan",
-    kelerengan: "Kelerengan",
-    ketinggian: "ketinggiankedua",
-    jenis_tanah: "PETAJENISTANAH",
-    kerapatan_sungai: "PETAKERAPATANALIRANSUNGAI",
-    tutupan_lahan: "tutupanlahan",
+    muaraenim: "MuaraEnim",
+    musirawas: "MusiRawas",
+    musibanyuasin: "MusiBanyuasin",
+    banyuasin: "Banyuasin",
+    penukal: "PenukalAbabLematangIlir",
   };
 
   const handleDownload = (format: string) => {
@@ -119,7 +111,7 @@ export default function FloodTrackingModal() {
       fileUrl = `/pdf/${fileName}.pdf`;
       downloadFileName = `${fileName}.pdf`;
     } else if (format === "PNG") {
-      fileUrl = `/peta/${fileName}.png`;
+      fileUrl = `/rawanbanjir/${fileName}.png`;
       downloadFileName = `${fileName}.png`;
     }
 
@@ -133,7 +125,7 @@ export default function FloodTrackingModal() {
 
   const handleClose = () => {
     setOpen(false);
-    setSelectedParameter("curahhujan");
+    setSelectedParameter("muaraenim");
     setImageLoading(true);
   };
 
@@ -354,7 +346,7 @@ export default function FloodTrackingModal() {
                     marginBottom: { xs: "8px", md: "16px" },
                   }}
                 >
-                  Pilih Parameter
+                  Peta Analisis Banjir
                 </Typography>
 
                 {/* Mobile Dropdown */}
@@ -421,7 +413,7 @@ export default function FloodTrackingModal() {
                         height: "48px",
                         textAlign: "left",
                         textTransform: "none",
-                        fontSize: "1rem",
+                        fontSize: param.key === "penukal" ? "0.8rem" : "1rem", // Smaller font for long text
                         backgroundColor:
                           selectedParameter === param.key
                             ? "#550b14"

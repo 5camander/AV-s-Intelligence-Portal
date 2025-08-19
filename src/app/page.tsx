@@ -7,6 +7,7 @@ import { Button, Typography } from "@mui/material";
 import { Card, CardContent } from "@mui/material";
 
 import FloodTrackingModal from "@/components/FloodTrackingModal";
+import ParameterTrackingModal from "@/components/ParameterTrackingModal";
 import CurrentTime from "@/components/CurrentTime";
 
 export default function Home() {
@@ -32,7 +33,7 @@ export default function Home() {
             <button
               onClick={() =>
                 document
-                  .getElementById("features")
+                  .getElementById("feature")
                   ?.scrollIntoView({ behavior: "smooth" })
               }
               className="text-sm font-semibold text-[#550b14] hover:text-[#7e6961] cursor-pointer"
@@ -87,48 +88,130 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Feature Card Section */}
-        <section id="features" className="bg-[#cbc0b2] py-12 md:py-20 w-full">
-          <div className="mx-auto px-8 max-w-[1400px]">
-            <Card
-              className="bg-[#f8f8f7] border-none"
-              sx={{
-                borderRadius: 4,
-                boxShadow: "0 10px 25px rgba(0, 0, 0, 0.1)",
-              }}
-            >
-              <CardContent
-                sx={{
-                  padding: "3rem !important",
-                  "@media (max-width: 768px)": {
-                    padding: "2rem !important",
-                  },
-                }}
-              >
-                <div className="grid gap-6 md:grid-cols-2 md:gap-12 items-center">
-                  <div className="space-y-4">
-                    <h2 className="text-2xl md:text-3xl font-bold text-[#550b14]">
-                      Pantau dan Lacak Banjir di Sumatera Selatan
-                    </h2>
-                    <p className="text-[#7e6961]">
-                      Platform kami menyediakan data real-time dan prediksi
-                      banjir untuk membantu Anda mempersiapkan dan merespons
-                      situasi darurat dengan lebih baik. Dapatkan akses ke peta
-                      interaktif, peringatan dini, dan informasi cuaca terkini.
-                    </p>
-                    <FloodTrackingModal />
-                  </div>
-                  <div className="relative h-[250px] rounded-lg overflow-hidden">
-                    <Image
-                      src={"/images/banjir.jpg"}
-                      alt="Flood Tracking"
-                      fill
-                      className="object-cover"
-                    />
+        {/* Parameter Card Section */}
+        <section
+          id="feature"
+          className="bg-gradient-to-br from-[#cbc0b2] to-[#b8ad9f] py-16 md:py-24 w-full relative overflow-hidden"
+        >
+          {/* Decorative background elements */}
+          <div className="absolute inset-0 opacity-5">
+            <div className="absolute top-10 left-10 w-32 h-32 bg-[#550b14] rounded-full blur-3xl"></div>
+            <div className="absolute bottom-20 right-20 w-40 h-40 bg-[#7e6961] rounded-full blur-3xl"></div>
+          </div>
+
+          <div className="mx-auto px-8 max-w-[1400px] relative z-10">
+            <div className="grid gap-8 lg:grid-cols-2 lg:gap-16 items-center">
+              {/* Content Side */}
+              <div className="space-y-6 lg:pr-8">
+                <div className="inline-flex items-center px-4 py-2 bg-[#550b14]/10 rounded-full mb-4">
+                  <span className="text-sm font-semibold text-[#550b14] tracking-wide uppercase">
+                    Analisis Parameter
+                  </span>
+                </div>
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#550b14] leading-tight">
+                  Parameter
+                  <span className="text-[#550b14]"> Rawan Banjir</span>
+                </h2>
+                <p className="text-lg text-[#7e6961] leading-relaxed">
+                  Menyediakan 6 (enam) data parameter yang berpengaruh terhadap
+                  banjir dengan analisis mendalam dan visualisasi interaktif
+                </p>
+                <div className="pt-4">
+                  <ParameterTrackingModal />
+                </div>
+              </div>
+
+              {/* Image Side */}
+              <div className="relative group">
+                <div className="relative h-[320px] lg:h-[400px] rounded-3xl overflow-hidden shadow-2xl transform group-hover:scale-105 transition-all duration-700 ease-out">
+                  <div className="absolute inset-0 bg-gradient-to-tr from-[#550b14]/20 to-transparent z-10"></div>
+                  <Image
+                    src={"/images/banjir2.png"}
+                    alt="Parameter Rawan Banjir"
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+
+                  {/* Floating stats card */}
+                  <div className="absolute bottom-6 left-6 bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-xl z-20">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                      <span className="text-sm font-semibold text-[#550b14]">
+                        6 Parameter Aktif
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+
+                {/* Decorative elements */}
+                <div className="absolute -top-4 -right-4 w-20 h-20 bg-[#550b14]/10 rounded-full blur-xl"></div>
+                <div className="absolute -bottom-6 -left-6 w-16 h-16 bg-[#7e6961]/10 rounded-full blur-xl"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Feature Card Section */}
+        <section
+          id="webgis"
+          className="bg-gradient-to-bl from-[#cbc0b2] to-[#d4c9bc] py-16 md:py-24 w-full relative overflow-hidden"
+        >
+          {/* Decorative background elements */}
+          <div className="absolute inset-0 opacity-5">
+            <div className="absolute top-20 right-10 w-36 h-36 bg-[#550b14] rounded-full blur-3xl"></div>
+            <div className="absolute bottom-10 left-20 w-44 h-44 bg-[#7e6961] rounded-full blur-3xl"></div>
+          </div>
+
+          <div className="mx-auto px-8 max-w-[1400px] relative z-10">
+            <div className="grid gap-8 lg:grid-cols-2 lg:gap-16 items-center">
+              {/* Image Side - Order reversed on desktop */}
+              <div className="relative group lg:order-1">
+                <div className="relative h-[320px] lg:h-[400px] rounded-3xl overflow-hidden shadow-2xl transform group-hover:scale-105 transition-all duration-700 ease-out">
+                  <div className="absolute inset-0 bg-gradient-to-tl from-[#550b14]/20 to-transparent z-10"></div>
+                  <Image
+                    src={"/images/banjir.png"}
+                    alt="WebGIS Sumatera Selatan"
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+
+                  {/* Floating interactive badge */}
+                  <div className="absolute top-6 right-6 bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-xl z-20">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
+                      <span className="text-sm font-semibold text-[#550b14]">
+                        Peta Interaktif
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Decorative elements */}
+                <div className="absolute -top-6 -left-4 w-24 h-24 bg-[#7e6961]/10 rounded-full blur-xl"></div>
+                <div className="absolute -bottom-4 -right-6 w-18 h-18 bg-[#550b14]/10 rounded-full blur-xl"></div>
+              </div>
+
+              {/* Content Side */}
+              <div className="space-y-6 lg:pl-8 lg:order-2">
+                <div className="inline-flex items-center px-4 py-2 bg-[#550b14]/10 rounded-full mb-4">
+                  <span className="text-sm font-semibold text-[#550b14] tracking-wide uppercase">
+                    WebGIS Platform
+                  </span>
+                </div>
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#550b14] leading-tight">
+                  Pantau dan Lacak Banjir di
+                  <span className="text-[#550b14]"> Sumatera Selatan</span>
+                </h2>
+                <p className="text-lg text-[#7e6961] leading-relaxed">
+                  Platform kami menyediakan data prediksi banjir untuk membantu
+                  Anda mempersiapkan dan merespons situasi darurat dengan lebih
+                  baik. Dapatkan akses ke peta interaktif yang real-time.
+                </p>
+                <div className="pt-4">
+                  <FloodTrackingModal />
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -413,12 +496,14 @@ export default function Home() {
                       transition: "all 0.3s ease-in-out",
                     }}
                   >
-                    <CardContent sx={{ 
-                      padding: "1.5rem !important",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between"
-                    }}>
+                    <CardContent
+                      sx={{
+                        padding: "1.5rem !important",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                      }}
+                    >
                       <div style={{ flex: 1 }}>
                         <Typography
                           variant="h6"
@@ -452,7 +537,7 @@ export default function Home() {
                           textAlign: "center",
                         }}
                       >
-                        1
+                        5
                       </Typography>
                     </CardContent>
                   </Card>
@@ -470,12 +555,14 @@ export default function Home() {
                       transition: "all 0.3s ease-in-out",
                     }}
                   >
-                    <CardContent sx={{ 
-                      padding: "1.5rem !important",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between"
-                    }}>
+                    <CardContent
+                      sx={{
+                        padding: "1.5rem !important",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                      }}
+                    >
                       <div style={{ flex: 1 }}>
                         <Typography
                           variant="h6"
@@ -527,12 +614,14 @@ export default function Home() {
                       transition: "all 0.3s ease-in-out",
                     }}
                   >
-                    <CardContent sx={{ 
-                      padding: "1.5rem !important",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between"
-                    }}>
+                    <CardContent
+                      sx={{
+                        padding: "1.5rem !important",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                      }}
+                    >
                       <div style={{ flex: 1 }}>
                         <Typography
                           variant="h6"
