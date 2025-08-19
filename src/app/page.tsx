@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { MapPin, Droplets, Wind, Thermometer } from "lucide-react";
 
@@ -9,8 +10,29 @@ import { Card, CardContent } from "@mui/material";
 import FloodTrackingModal from "@/components/FloodTrackingModal";
 import ParameterTrackingModal from "@/components/ParameterTrackingModal";
 import CurrentTime from "@/components/CurrentTime";
+import WeatherError from "@/components/WeatherError";
+import WeatherStatus from "@/components/WeatherStatus";
+import CitySelector, { southSumateraCities } from "@/components/CitySelector";
+import useWeatherData from "@/hooks/useWeatherData";
 
 export default function Home() {
+  const [selectedCity, setSelectedCity] = useState("Palembang");
+
+  // Find coordinates for the selected city
+  const selectedCityData = southSumateraCities.find(
+    (city) => city.value === selectedCity
+  );
+  const coordinates = selectedCityData?.coordinates;
+
+  const { weatherData, loading, error, refetch } = useWeatherData(
+    selectedCity,
+    coordinates
+  );
+
+  const handleCityChange = (city: string) => {
+    setSelectedCity(city);
+  };
+
   return (
     <div className="flex min-h-screen flex-col">
       {/* Navbar */}
@@ -232,6 +254,22 @@ export default function Home() {
                     Prediksi Cuaca Sumatera Selatan
                   </h3>
                 </div>
+
+                {/* City Selector */}
+                <CitySelector
+                  selectedCity={selectedCity}
+                  onCityChange={handleCityChange}
+                  loading={loading}
+                />
+
+                {/* Weather Status */}
+                <WeatherStatus
+                  loading={loading}
+                  cityName={selectedCity}
+                  error={error}
+                />
+
+                {error && <WeatherError error={error} onRetry={refetch} />}
                 <div className="grid gap-4 sm:grid-cols-2">
                   <Card
                     sx={{
@@ -278,7 +316,9 @@ export default function Home() {
                           marginBottom: "0.5rem",
                         }}
                       >
-                        75%
+                        {loading
+                          ? "..."
+                          : `${weatherData?.rainProbability || 0}%`}
                       </Typography>
                       <Typography
                         variant="caption"
@@ -288,7 +328,15 @@ export default function Home() {
                           lineHeight: 1.4,
                         }}
                       >
-                        Kemungkinan hujan tinggi
+                        {loading
+                          ? "Memuat data..."
+                          : weatherData?.rainProbability &&
+                            weatherData.rainProbability > 60
+                          ? "Kemungkinan hujan tinggi"
+                          : weatherData?.rainProbability &&
+                            weatherData.rainProbability > 30
+                          ? "Kemungkinan hujan sedang"
+                          : "Kemungkinan hujan rendah"}
                       </Typography>
                     </CardContent>
                   </Card>
@@ -338,7 +386,7 @@ export default function Home() {
                           marginBottom: "0.5rem",
                         }}
                       >
-                        85%
+                        {loading ? "..." : `${weatherData?.humidity || 0}%`}
                       </Typography>
                       <Typography
                         variant="caption"
@@ -348,7 +396,13 @@ export default function Home() {
                           lineHeight: 1.4,
                         }}
                       >
-                        Kelembaban tinggi
+                        {loading
+                          ? "Memuat data..."
+                          : weatherData?.humidity && weatherData.humidity > 70
+                          ? "Kelembaban tinggi"
+                          : weatherData?.humidity && weatherData.humidity > 50
+                          ? "Kelembaban sedang"
+                          : "Kelembaban rendah"}
                       </Typography>
                     </CardContent>
                   </Card>
@@ -398,7 +452,7 @@ export default function Home() {
                           marginBottom: "0.5rem",
                         }}
                       >
-                        28°C
+                        {loading ? "..." : `${weatherData?.temperature || 0}°C`}
                       </Typography>
                       <Typography
                         variant="caption"
@@ -408,7 +462,9 @@ export default function Home() {
                           lineHeight: 1.4,
                         }}
                       >
-                        Terasa seperti 30°C
+                        {loading
+                          ? "Memuat data..."
+                          : `Terasa seperti ${weatherData?.feelsLike || 0}°C`}
                       </Typography>
                     </CardContent>
                   </Card>
@@ -458,7 +514,9 @@ export default function Home() {
                           marginBottom: "0.5rem",
                         }}
                       >
-                        Palembang
+                        {loading
+                          ? selectedCity
+                          : weatherData?.location || selectedCity}
                       </Typography>
                       <Typography
                         variant="caption"
@@ -468,7 +526,11 @@ export default function Home() {
                           lineHeight: 1.4,
                         }}
                       >
-                        Sumatera Selatan
+                        {loading
+                          ? "Memuat data cuaca..."
+                          : error
+                          ? "Data tidak tersedia"
+                          : weatherData?.description || "Sumatera Selatan"}
                       </Typography>
                     </CardContent>
                   </Card>
