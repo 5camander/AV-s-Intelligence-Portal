@@ -123,28 +123,8 @@ export default function Home() {
 
           <div className="mx-auto px-8 max-w-[1400px] relative z-10">
             <div className="grid gap-8 lg:grid-cols-2 lg:gap-16 items-center">
-              {/* Content Side */}
-              <div className="space-y-6 lg:pr-8">
-                <div className="inline-flex items-center px-4 py-2 bg-[#550b14]/10 rounded-full mb-4">
-                  <span className="text-sm font-semibold text-[#550b14] tracking-wide uppercase">
-                    Analisis Parameter
-                  </span>
-                </div>
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#550b14] leading-tight">
-                  Parameter
-                  <span className="text-[#550b14]"> Rawan Banjir</span>
-                </h2>
-                <p className="text-lg text-[#7e6961] leading-relaxed">
-                  Menyediakan 6 (enam) data parameter yang berpengaruh terhadap
-                  banjir dengan analisis mendalam dan visualisasi interaktif
-                </p>
-                <div className="pt-4">
-                  <ParameterTrackingModal />
-                </div>
-              </div>
-
-              {/* Image Side */}
-              <div className="relative group">
+              {/* Image Side - Show first on mobile, second on desktop */}
+              <div className="relative group order-1 lg:order-2">
                 <div className="relative h-[320px] lg:h-[400px] rounded-3xl overflow-hidden shadow-2xl transform group-hover:scale-105 transition-all duration-700 ease-out">
                   <div className="absolute inset-0 bg-gradient-to-tr from-[#550b14]/20 to-transparent z-10"></div>
                   <Image
@@ -168,6 +148,26 @@ export default function Home() {
                 {/* Decorative elements */}
                 <div className="absolute -top-4 -right-4 w-20 h-20 bg-[#550b14]/10 rounded-full blur-xl"></div>
                 <div className="absolute -bottom-6 -left-6 w-16 h-16 bg-[#7e6961]/10 rounded-full blur-xl"></div>
+              </div>
+
+              {/* Content Side - Show second on mobile, first on desktop */}
+              <div className="space-y-6 lg:pr-8 order-2 lg:order-1">
+                <div className="inline-flex items-center px-4 py-2 bg-[#550b14]/10 rounded-full mb-4">
+                  <span className="text-sm font-semibold text-[#550b14] tracking-wide uppercase">
+                    Analisis Parameter
+                  </span>
+                </div>
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#550b14] leading-tight">
+                  Parameter
+                  <span className="text-[#550b14]"> Rawan Banjir</span>
+                </h2>
+                <p className="text-lg text-[#7e6961] leading-relaxed">
+                  Menyediakan 6 (enam) data parameter yang berpengaruh terhadap
+                  banjir dengan analisis mendalam dan visualisasi interaktif
+                </p>
+                <div className="pt-4">
+                  <ParameterTrackingModal />
+                </div>
               </div>
             </div>
           </div>
