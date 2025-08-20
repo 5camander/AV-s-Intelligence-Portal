@@ -91,7 +91,7 @@ export default function Home() {
               <Button
                 onClick={() => {
                   document
-                    .getElementById("features")
+                    .getElementById("feature")
                     ?.scrollIntoView({ behavior: "smooth" });
                 }}
                 variant="contained"
