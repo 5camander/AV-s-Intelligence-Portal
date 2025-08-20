@@ -4,9 +4,13 @@ interface WeatherData {
   temperature: number;
   humidity: number;
   rainProbability: number;
+  clouds: number;
+  rain: number; // mm/h
   feelsLike: number;
   location: string;
   description: string;
+  weatherMain: string;
+  weatherDescription: string;
 }
 
 interface CityCoordinates {
@@ -86,9 +90,13 @@ const useWeatherData = (
         temperature: Math.round(data.main.temp),
         humidity: data.main.humidity,
         rainProbability: Math.round(rainProbability),
+        clouds: data.clouds.all,
+        rain: data.rain?.["1h"] || 0, // Get rain data in mm/h, default to 0 if no rain
         feelsLike: Math.round(data.main.feels_like),
         location: data.name,
         description: data.weather[0].description,
+        weatherMain: data.weather[0].main,
+        weatherDescription: data.weather[0].description,
       };
 
       setWeatherData(weatherInfo);
@@ -101,9 +109,13 @@ const useWeatherData = (
         temperature: 28,
         humidity: 85,
         rainProbability: 75,
+        clouds: 50,
+        rain: 0,
         feelsLike: 30,
         location: "Palembang",
         description: "Data tidak tersedia",
+        weatherMain: "Clouds",
+        weatherDescription: "Data tidak tersedia",
       });
     } finally {
       setLoading(false);

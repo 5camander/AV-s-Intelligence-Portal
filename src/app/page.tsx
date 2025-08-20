@@ -2,7 +2,16 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { MapPin, Droplets, Wind, Thermometer } from "lucide-react";
+import {
+  MapPin,
+  Cloud,
+  Wind,
+  Thermometer,
+  Sun,
+  CloudRain,
+  CloudSnow,
+  CloudOff,
+} from "lucide-react";
 
 import { Button, Typography } from "@mui/material";
 import { Card, CardContent } from "@mui/material";
@@ -14,6 +23,60 @@ import WeatherError from "@/components/WeatherError";
 import WeatherStatus from "@/components/WeatherStatus";
 import CitySelector, { southSumateraCities } from "@/components/CitySelector";
 import useWeatherData from "@/hooks/useWeatherData";
+
+// Utility functions for weather
+const getWeatherIcon = (weatherMain: string) => {
+  switch (weatherMain.toLowerCase()) {
+    case "clear":
+      return Sun;
+    case "clouds":
+      return Cloud;
+    case "rain":
+    case "drizzle":
+      return CloudRain;
+    case "snow":
+      return CloudSnow;
+    default:
+      return Cloud;
+  }
+};
+
+const translateWeatherCondition = (
+  weatherMain: string,
+  description: string
+) => {
+  const translations: { [key: string]: string } = {
+    clear: "Cerah",
+    clouds: "Berawan",
+    rain: "Hujan",
+    drizzle: "Gerimis",
+    snow: "Salju",
+    thunderstorm: "Petir",
+    mist: "Kabut",
+    fog: "Kabut Tebal",
+    haze: "Berkabut",
+    dust: "Berdebu",
+    sand: "Badai Pasir",
+    smoke: "Berasap",
+    squall: "Badai",
+    tornado: "Tornado",
+  };
+
+  return translations[weatherMain.toLowerCase()] || description;
+};
+
+const getRainIntensityDescription = (rainMmh: number) => {
+  if (rainMmh === 0) return "Tidak ada hujan";
+  if (rainMmh < 0.5) return "Hujan sangat ringan";
+  if (rainMmh < 2) return "Hujan ringan";
+  if (rainMmh < 10) return "Hujan sedang";
+  if (rainMmh < 50) return "Hujan lebat";
+  return "Hujan sangat lebat";
+};
+
+const getRainIcon = (rainMmh: number) => {
+  return rainMmh > 0 ? CloudRain : CloudOff;
+};
 
 export default function Home() {
   const [selectedCity, setSelectedCity] = useState("Palembang");
@@ -270,7 +333,7 @@ export default function Home() {
                 />
 
                 {error && <WeatherError error={error} onRetry={refetch} />}
-                <div className="grid gap-4 sm:grid-cols-2">
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   <Card
                     sx={{
                       backgroundColor: "white",
@@ -293,7 +356,7 @@ export default function Home() {
                           marginBottom: "16px",
                         }}
                       >
-                        <Droplets
+                        <Cloud
                           style={{ width: 16, height: 16, color: "#550b14" }}
                         />
                         <Typography
@@ -304,7 +367,7 @@ export default function Home() {
                             color: "#550b14",
                           }}
                         >
-                          Curah Hujan
+                          Tutupan Awan
                         </Typography>
                       </div>
                       <Typography
@@ -316,9 +379,7 @@ export default function Home() {
                           marginBottom: "0.5rem",
                         }}
                       >
-                        {loading
-                          ? "..."
-                          : `${weatherData?.rainProbability || 0}%`}
+                        {loading ? "..." : `${weatherData?.clouds || 0}%`}
                       </Typography>
                       <Typography
                         variant="caption"
@@ -330,13 +391,11 @@ export default function Home() {
                       >
                         {loading
                           ? "Memuat data..."
-                          : weatherData?.rainProbability &&
-                            weatherData.rainProbability > 60
-                          ? "Kemungkinan hujan tinggi"
-                          : weatherData?.rainProbability &&
-                            weatherData.rainProbability > 30
-                          ? "Kemungkinan hujan sedang"
-                          : "Kemungkinan hujan rendah"}
+                          : weatherData?.clouds && weatherData.clouds > 70
+                          ? "Awan tebal"
+                          : weatherData?.clouds && weatherData.clouds > 40
+                          ? "Awan sedang"
+                          : "Cerah"}
                       </Typography>
                     </CardContent>
                   </Card>
@@ -530,7 +589,169 @@ export default function Home() {
                           ? "Memuat data cuaca..."
                           : error
                           ? "Data tidak tersedia"
-                          : weatherData?.description || "Sumatera Selatan"}
+                          : "Sumatera Selatan"}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+
+                  <Card
+                    sx={{
+                      backgroundColor: "white",
+                      border: "1px solid #e5e7eb",
+                      borderRadius: 2,
+                      boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
+                      "&:hover": {
+                        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                        transform: "translateY(-1px)",
+                      },
+                      transition: "all 0.2s ease-in-out",
+                    }}
+                  >
+                    <CardContent sx={{ padding: "1.5rem" }}>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "8px",
+                          marginBottom: "16px",
+                        }}
+                      >
+                        {(() => {
+                          const IconComponent = weatherData
+                            ? getWeatherIcon(weatherData.weatherMain)
+                            : Cloud;
+                          return (
+                            <IconComponent
+                              style={{
+                                width: 16,
+                                height: 16,
+                                color: "#550b14",
+                              }}
+                            />
+                          );
+                        })()}
+                        <Typography
+                          variant="subtitle2"
+                          sx={{
+                            fontSize: "0.875rem",
+                            fontWeight: 500,
+                            color: "#550b14",
+                          }}
+                        >
+                          Cuaca Saat Ini
+                        </Typography>
+                      </div>
+                      <Typography
+                        variant="h4"
+                        sx={{
+                          fontSize: "1.5rem",
+                          fontWeight: "bold",
+                          color: "#550b14",
+                          marginBottom: "0.5rem",
+                        }}
+                      >
+                        {loading
+                          ? "..."
+                          : weatherData
+                          ? translateWeatherCondition(
+                              weatherData.weatherMain,
+                              weatherData.weatherDescription
+                            )
+                          : "Tidak tersedia"}
+                      </Typography>
+                      <Typography
+                        variant="caption"
+                        sx={{
+                          fontSize: "0.75rem",
+                          color: "#7e6961",
+                          lineHeight: 1.4,
+                        }}
+                      >
+                        {loading
+                          ? "Memuat data..."
+                          : error
+                          ? "Data tidak tersedia"
+                          : weatherData?.weatherDescription ||
+                            "Kondisi cuaca saat ini"}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+
+                  <Card
+                    sx={{
+                      backgroundColor: "white",
+                      border: "1px solid #e5e7eb",
+                      borderRadius: 2,
+                      boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
+                      "&:hover": {
+                        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                        transform: "translateY(-1px)",
+                      },
+                      transition: "all 0.2s ease-in-out",
+                    }}
+                  >
+                    <CardContent sx={{ padding: "1.5rem" }}>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "8px",
+                          marginBottom: "16px",
+                        }}
+                      >
+                        {(() => {
+                          const IconComponent = getRainIcon(
+                            weatherData?.rain || 0
+                          );
+                          return (
+                            <IconComponent
+                              style={{
+                                width: 16,
+                                height: 16,
+                                color: "#550b14",
+                              }}
+                            />
+                          );
+                        })()}
+                        <Typography
+                          variant="subtitle2"
+                          sx={{
+                            fontSize: "0.875rem",
+                            fontWeight: 500,
+                            color: "#550b14",
+                          }}
+                        >
+                          Intensitas Hujan
+                        </Typography>
+                      </div>
+                      <Typography
+                        variant="h3"
+                        sx={{
+                          fontSize: "1.875rem",
+                          fontWeight: "bold",
+                          color: "#550b14",
+                          marginBottom: "0.5rem",
+                        }}
+                      >
+                        {loading
+                          ? "..."
+                          : weatherData?.rain === 0
+                          ? "0 mm/h"
+                          : `${weatherData?.rain || 0} mm/h`}
+                      </Typography>
+                      <Typography
+                        variant="caption"
+                        sx={{
+                          fontSize: "0.75rem",
+                          color: "#7e6961",
+                          lineHeight: 1.4,
+                        }}
+                      >
+                        {loading
+                          ? "Memuat data..."
+                          : error
+                          ? "Data tidak tersedia"
+                          : getRainIntensityDescription(weatherData?.rain || 0)}
                       </Typography>
                     </CardContent>
                   </Card>
